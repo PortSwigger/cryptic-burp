@@ -1,6 +1,6 @@
 # CrypticBurp, Encrypted Traffic Editor
 
-A Burp Suite extension for dealing with apps that encrypt their HTTP traffic on top of TLS.
+A Burp extension for dealing with apps that encrypt their HTTP traffic on top of TLS.
 
 CrypticBurp decrypts the application-layer ciphertext in requests and responses into a new tab (**Decrypted**), lets you edit the decrypted plaintext, and re-encrypts the requests on their way to the server.
 
