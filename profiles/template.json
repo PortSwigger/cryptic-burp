@@ -1,0 +1,27 @@
+{
+  "targetHost": "127.0.0.1",
+  "targetPath": "/api/",
+  "cipher": "AES/CBC",
+  "key": "!YeahIS@wSpark5!",
+  "iv": "",
+  "keyFormat": "ASCII",
+  "ivSameAsKey": true,
+  "ivMode": "Fixed",
+  "encoding": "Base64",
+  "query": {
+    "enabled": true,
+    "padding": "Tab (0x09)"
+  },
+  "requestBody": {
+    "enabled": false,
+    "type": "Raw",
+    "field": "",
+    "padding": "PKCS7"
+  },
+  "responseBody": {
+    "enabled": true,
+    "type": "Raw",
+    "field": "",
+    "padding": "PKCS7"
+  }
+}

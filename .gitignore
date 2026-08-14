@@ -1,25 +1,18 @@
-# Python
-__pycache__/
-*.py[cod]
-*.class
-*$py.class
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
 
-# Jython
-*.jy
-
-# Burp/personal profiles (don't commit your target keys!)
-profiles/*.json
-!profiles/example.json
-
-# Local dev & editor
-.vscode/
+# IDE
 .idea/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
+*.iml
+.vscode/
 
-# Logs & scratch
-*.log
-scratch/
-tmp/
+# OS
+.DS_Store
+
+# User crypto profiles (may contain client keys). Example profiles under
+# profiles/ are safe to commit; keep client-specific ones out with a .local.json
+# suffix, e.g. acme-prod.local.json
+*.crypticburp
+profiles/*.local.json
