@@ -4,7 +4,7 @@ A Burp extension for dealing with apps that encrypt their HTTP traffic on top of
 
 CrypticBurp decrypts the application-layer ciphertext in requests and responses into a new tab (**Decrypted**), lets you edit the decrypted plaintext, and re-encrypts the requests on their way to the server.
 
-Originally built for mobile app pentesting where the target was encrypting its API traffic in AES on top of HTTPS, which made Repeater effectively useless. No more though! :)
+This extension was originally built for a mobile app pentest where the target was encrypting its API traffic on top of HTTPS, making Repeater effectively useless. No more though! :)
 
 Shoutout to [sparky23172](https://github.com/sparky23172) for the amazing support with this!
 
@@ -23,7 +23,7 @@ Shoutout to [sparky23172](https://github.com/sparky23172) for the amazing suppor
 
 ## Requirements
 
-- Burp Suite Community or Pro (duh)
+- Burp Suite Community or Pro
 
 ## Building CrypticBurp
 
@@ -45,7 +45,7 @@ The loadable extension is written to `build/libs/crypticburp-1.1.jar`. `montoya-
 
 ## Using CrypticBurp
 
-1. Obtain the target app's encryption key and IV. Common approaches:
+1. Obtain the target app's encryption key and IV. Here are some common approaches:
    - Frida hooks on `EVP_EncryptUpdate` / `EVP_DecryptUpdate` (native OpenSSL)
    - Frida hooks on `javax.crypto.Cipher` (Java)
    - Static analysis of the decompiled APK for hardcoded keys
@@ -73,13 +73,13 @@ Typical output you'd paste into CrypticBurp:
 [ENCRYPT]    {"user":"alice","action":"login"}
 ```
 
-**Note:** there is no SSL pinning bypass in this script. If the app pins certs, try to run a pinning bypass (like the one by Maurizio Siddu) alongside this script, or combine it with this one (what I did). Figure it out!
+**Note:** there is no SSL pinning bypass in this script. If the app pins certs, try to run a pinning bypass (like the one by Maurizio Siddu) alongside this script, or combine it with this one (what I did). Figure it out! :)
 
 ## Configuration Profiles
 
-Reusable JSON config files to make your workflow with multiple applications easier. Load with **Load Profile** and save with **Save Profile**.
+Reusable JSON config files can be used to make your workflow with multiple applications easier. Load them with **Load Profile** and save with **Save Profile**.
 
-A blank [`profiles/template.json`](profiles/template.json) is included to copy and fill in, and [`profiles/`](profiles) also has ready-made examples for each scenario in the test harness. Here's the shape:
+A blank [`profiles/template.json`](profiles/template.json) is included to copy and fill in:
 
 ```json
 {
@@ -97,8 +97,6 @@ A blank [`profiles/template.json`](profiles/template.json) is included to copy a
   "responseBody": { "enabled": true,  "type": "Raw", "field": "", "padding": "PKCS7" }
 }
 ```
-
-Your own profiles are gitignored (`*.local.json`) so you don't accidentally commit client keys.
 
 ## Screenshots (coming soon!)
 
@@ -136,17 +134,17 @@ Your own profiles are gitignored (`*.local.json`) so you don't accidentally comm
 
 ## Troubleshooting
 
-**Decryption shows garbage**
+**Decryption shows nonsense**
 - Wrong key or IV
 - Wrong cipher (try CBC vs ECB, or GCM), padding type, or encoding (Base64 vs Hex vs URL-safe Base64)
 - If the app uses a per-message IV, set **IV mode** to *Prepended to ciphertext*
 
-**Decrypted tab doesn't appear**
+**Decrypted tab does not appear**
 - Host/path filter doesn't match the request
 - You didn't click **Apply Config**
 - Query/body is empty or below the trigger threshold
 
-**Extension won't load**
+**Extension will not load**
 - Make sure you picked extension type **Java** and selected the `.jar`
 - Check **Extensions → Errors** tab for the traceback
 
