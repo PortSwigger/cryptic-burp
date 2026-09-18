@@ -23,6 +23,8 @@ import java.awt.Component;
  */
 public class DecryptedResponseEditor implements ExtensionProvidedHttpResponseEditor {
 
+    // One AES block is 16 bytes. A body shorter than that cannot be ciphertext,
+    // so skip the tab instead of showing a failed decrypt.
     private static final int MIN_BODY = 16;
 
     private final ConfigStore store;

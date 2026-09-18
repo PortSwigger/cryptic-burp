@@ -43,6 +43,12 @@ The loadable extension is written to `build/libs/crypticburp-1.1.jar`. `montoya-
 4. Extension file: select `crypticburp-1.1.jar`
 5. Enjoy **CrypticBurp**!
 
+## Testing CrypticBurp
+
+To test the extension without pointing it at a real app, [`demo/`](demo) has a small local server along with instructions.
+
+Load [`demo/template.json`](demo/template.json) in the **CrypticBurp** tab, click **Apply**, and follow the five requests in [`demo/README.md`](demo/README.md).
+
 ## Using CrypticBurp
 
 1. Obtain the target app's encryption key and IV. Here are some common approaches:
@@ -84,7 +90,7 @@ A blank [`profiles/template.json`](profiles/template.json) is included to copy a
 ```json
 {
   "targetHost": "127.0.0.1",
-  "targetPath": "/api/",
+  "targetPath": "/api",
   "cipher": "AES/CBC",
   "key": "!YeahIS@wSpark5!",
   "iv": "",
@@ -93,7 +99,7 @@ A blank [`profiles/template.json`](profiles/template.json) is included to copy a
   "ivMode": "Fixed",
   "encoding": "Base64",
   "query":        { "enabled": true, "padding": "Tab (0x09)" },
-  "requestBody":  { "enabled": false,  "type": "Raw", "field": "", "padding": "PKCS7" },
+  "requestBody":  { "enabled": true,  "type": "Raw", "field": "", "padding": "PKCS7" },
   "responseBody": { "enabled": true,  "type": "Raw", "field": "", "padding": "PKCS7" }
 }
 ```

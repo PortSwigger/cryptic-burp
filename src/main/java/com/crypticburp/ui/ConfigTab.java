@@ -1,6 +1,10 @@
 package com.crypticburp.ui;
 
+import static burp.api.montoya.core.ByteArray.byteArray;
+
 import burp.api.montoya.MontoyaApi;
+import burp.api.montoya.ui.editor.EditorOptions;
+import burp.api.montoya.ui.editor.RawEditor;
 import com.crypticburp.config.BodyType;
 import com.crypticburp.config.Configuration;
 import com.crypticburp.config.ConfigStore;
@@ -14,7 +18,7 @@ import com.crypticburp.crypto.Padding;
 import com.crypticburp.util.JsonPretty;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -33,7 +37,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -77,8 +80,8 @@ public final class ConfigTab {
     private final JComboBox<Padding> respPadding = new JComboBox<>(Padding.values());
 
     private final JComboBox<Padding> testPadding = new JComboBox<>(Padding.values());
-    private final JTextArea testInput = new JTextArea(6, 30);
-    private final JTextArea testOutput = new JTextArea(6, 30);
+    private final RawEditor testInput;
+    private final RawEditor testOutput;
 
     private final JLabel statusLabel = new JLabel(" ");
 
@@ -86,6 +89,8 @@ public final class ConfigTab {
         this.api = api;
         this.store = store;
         this.background = background;
+        this.testInput = api.userInterface().createRawEditor();
+        this.testOutput = api.userInterface().createRawEditor(EditorOptions.READ_ONLY);
         this.root = build();
         loadIntoUi(store.get());
         refreshStatus();
@@ -239,15 +244,8 @@ public final class ConfigTab {
         c.weightx = 1.0;
         c.weighty = 1.0;
 
-        Font mono = new Font(Font.MONOSPACED, Font.PLAIN, 12);
-        testInput.setFont(mono);
-        testInput.setLineWrap(true);
-        testOutput.setFont(mono);
-        testOutput.setLineWrap(true);
-        testOutput.setEditable(false);
-
         c.gridx = 0; c.gridy = 0;
-        panel.add(new JScrollPane(testInput), c);
+        panel.add(sized(testInput.uiComponent()), c);
 
         c.gridx = 1; c.weightx = 0; c.weighty = 0; c.fill = GridBagConstraints.NONE;
         JPanel mid = new JPanel();
@@ -260,8 +258,20 @@ public final class ConfigTab {
         panel.add(mid, c);
 
         c.gridx = 2; c.weightx = 1.0; c.weighty = 1.0; c.fill = GridBagConstraints.BOTH;
-        panel.add(new JScrollPane(testOutput), c);
+        panel.add(sized(testOutput.uiComponent()), c);
         return panel;
+    }
+
+    /**
+     * Burp's editor does not report a useful preferred size, and the tab stacks
+     * its panels with a BoxLayout that sizes each one by preference. Without this
+     * the whole tester panel collapses to a sliver.
+     */
+    private static JComponent sized(Component component) {
+        JPanel holder = new JPanel(new BorderLayout());
+        holder.add(component, BorderLayout.CENTER);
+        holder.setPreferredSize(new Dimension(320, 120));
+        return holder;
     }
 
     private void apply() {
@@ -359,13 +369,13 @@ public final class ConfigTab {
 
     private void runTest() {
         apply();
-        String input = testInput.getText().trim();
+        String input = testInput.getContents().toString().trim();
         Padding padding = (Padding) testPadding.getSelectedItem();
         if (input.isEmpty()) {
-            testOutput.setText("[No input]");
+            testOutput.setContents(byteArray("[No input]"));
             return;
         }
-        testOutput.setText("Working...");
+        testOutput.setContents(byteArray("Working..."));
         background.submit(() -> {
             String result;
             try {
@@ -376,10 +386,7 @@ public final class ConfigTab {
                 result = "[Error: " + e.getMessage() + "]";
             }
             String finalResult = result;
-            SwingUtilities.invokeLater(() -> {
-                testOutput.setText(finalResult);
-                testOutput.setCaretPosition(0);
-            });
+            SwingUtilities.invokeLater(() -> testOutput.setContents(byteArray(finalResult)));
         });
     }
 

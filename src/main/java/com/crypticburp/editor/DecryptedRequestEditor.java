@@ -27,6 +27,9 @@ public class DecryptedRequestEditor implements ExtensionProvidedHttpRequestEdito
 
     private static final String QUERY_HEADER = "===== QUERY =====";
     private static final String BODY_HEADER = "===== BODY =====";
+    // One AES block is 16 bytes, which comes to 24 characters once it is Base64
+    // encoded. Shorter than that and it cannot be ciphertext, so skip the tab
+    // instead of showing a failed decrypt on every short request.
     private static final int MIN_QUERY = 24;
     private static final int MIN_BODY = 16;
 
