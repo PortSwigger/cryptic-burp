@@ -8,7 +8,7 @@ This extension was originally built for a mobile app pentest where the target wa
 
 Shoutout to [sparky23172](https://github.com/sparky23172) for the amazing support with this!
 
-[CrypticBurp config panel photo - adding soon!]
+![CrypticBurp config panel](images/Ext_panelClean.png)
 
 ## Features
 
@@ -104,16 +104,6 @@ A blank [`profiles/template.json`](profiles/template.json) is included to copy a
 }
 ```
 
-## Screenshots (coming soon!)
-
-**Decrypted message editor tab:** Edit plaintext, re-encryption happens on Send:
-
-![Decrypted tab](screenshots/02_decrypted_tab.png)
-
-**Before/after:** Gobbledegook ciphertext response vs. the decrypted view:
-
-![Encrypted vs decrypted](screenshots/03_encrypted_vs_decrypted.png)
-
 ## Supported Formats (currently!)
 
 | Category    | Options                                                                                  |
@@ -153,6 +143,20 @@ A blank [`profiles/template.json`](profiles/template.json) is included to copy a
 **Extension will not load**
 - Make sure you picked extension type **Java** and selected the `.jar`
 - Check **Extensions → Errors** tab for the traceback
+
+## Demo
+
+![Browser requests](images/Demo0_BrowserReqs_gif_HD.gif)
+*i. Simulating sending requests with encrypted data in URL parameters and the request body.*
+
+![Encrypted traffic in Proxy](images/Demo1a_Proxy_enc_gif_HD.gif)
+*ii. Encrypted data in URL parameters and the request body visible in Proxy in Burp Suite.*
+
+![Decrypted traffic in Proxy](images/Demo1b_Proxy_de-enc_gif_HD.gif)
+*iii. Switching to the Decrypted tab in the Response window to see the previously encrypted data in plaintext.*
+
+![Editing and re-encrypting in Repeater](images/Demo2_Repeater_gif_HD.gif)
+*iv. Fuzzing the requests in Repeater and sending them back to the server successfully.*
 
 ## Disclaimers
 
