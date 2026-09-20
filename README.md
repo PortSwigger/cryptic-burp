@@ -85,7 +85,7 @@ Typical output you'd paste into CrypticBurp:
 
 Reusable JSON config files can be used to make your workflow with multiple applications easier. Load them with **Load Profile** and save with **Save Profile**.
 
-A blank [`profiles/template.json`](profiles/template.json) is included to copy and fill in:
+A template in [`profiles/template.json`](profiles/template.json) is included to copy and fill in:
 
 ```json
 {
