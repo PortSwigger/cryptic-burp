@@ -1,0 +1,26 @@
+<p>CrypticBurp handles application-layer encryption layered on top of TLS. It intercepts requests and responses, decrypts the ciphertext into a <strong>Decrypted</strong> tab for editing, and re-encrypts modified content before forwarding it to the server, making tools like Repeater functional against apps that encrypt their API traffic.</p>
+
+<h2>Features</h2>
+<ul>
+  <li>Decrypts and re-encrypts query strings, request bodies, and response bodies, with per-location padding configuration within a single profile</li>
+  <li>Supports targeting a specific JSON field or form field containing ciphertext, rather than treating the entire body as raw ciphertext</li>
+  <li>Handles prepended per-message IVs by automatically splitting or prepending the IV during decryption and re-encryption (<code class=InlineCode>encode(IV ? ciphertext)</code>)</li>
+  <li>Pretty-prints JSON in the Decrypted tab for readability and minifies it back before re-encryption</li>
+  <li>Per-host and per-path scoping ensures the extension only processes matching traffic and does not interfere with unrelated requests</li>
+  <li>Configuration can be saved and loaded as JSON profile files, allowing reuse across different targets</li>
+  <li>Supports multiple cipher algorithms, key formats, encodings, and padding schemes including PKCS7 and custom byte paddings</li>
+</ul>
+
+<h2>Usage</h2>
+<ol>
+  <li>Obtain the target applications encryption key and IV through static analysis, dynamic instrumentation, or the bundled Frida hook at <code class=InlineCode>frida/crypto_hook.js</code>:
+<pre class=pre-wrap><code class=Code>frida -U -l frida/crypto_hook.js -f com.target.app</code></pre>
+  </li>
+  <li>Open the CrypticBurp tab.</li>
+  <li>Fill in the target host and path to scope which traffic is processed.</li>
+  <li>Enter the cipher algorithm, key, key format, encoding, and padding for each location (query string, request body, response body) you want to decrypt.</li>
+  <li>Set the IV mode: use a fixed IV, derive it from the key, or select prepended to ciphertext if the app uses a per-message IV.</li>
+  <li>Click Apply Config to activate the profile. Optionally click Save Profile to write the configuration to a JSON file for later reuse.</li>
+  <li>Send or proxy requests matching the configured host and path &rarr; inspect and edit plaintext in the Decrypted tab &rarr; the extension re-encrypts your edits before the request reaches the server.</li>
+  <li>To load a saved profile, click Load Profile and select the corresponding JSON file, then click Apply Config.</li>
+</ol>

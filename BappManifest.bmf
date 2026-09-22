@@ -1,0 +1,13 @@
+Uuid: 8532da5bf4b24516be32f54c5fc394b5
+ExtensionType: 1
+Name: CrypticBurp, Encrypted Traffic Editor
+RepoName: cryptic-burp
+ScreenVersion: 1.1
+SerialVersion: 1
+MinPlatformVersion: 31
+ProOnly: False
+Author: Mansoor Ahmad, Alex Thines
+ShortDescription: Decrypts, edits, and re-encrypts application-layer ciphertext in HTTP traffic.
+EntryPoint: crypticburp-1.1.jar
+BuildCommand: ./gradlew build
+SupportedProducts: Pro, Community
