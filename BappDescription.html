@@ -13,9 +13,7 @@
 
 <h2>Usage</h2>
 <ol>
-  <li>Obtain the target applications encryption key and IV through static analysis, dynamic instrumentation, or the bundled Frida hook at <code class=InlineCode>frida/crypto_hook.js</code>:
-<pre class=pre-wrap><code class=Code>frida -U -l frida/crypto_hook.js -f com.target.app</code></pre>
-  </li>
+  <li>Obtain the target applications encryption key and IV through static analysis, dynamic instrumentation, or Frida hooks.</li>
   <li>Open the CrypticBurp tab.</li>
   <li>Fill in the target host and path to scope which traffic is processed.</li>
   <li>Enter the cipher algorithm, key, key format, encoding, and padding for each location (query string, request body, response body) you want to decrypt.</li>
